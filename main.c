@@ -276,7 +276,7 @@ main(int argc, char *argv[])
     br_sslio_write_all(&ioc, username, strlen(username));
     br_sslio_write_all(&ioc, "\r\nUser ", 7);
 	br_sslio_write_all(&ioc, username, strlen(username));
-	br_sslio_write_all(&ioc, " 0 * ", 5);
+	br_sslio_write_all(&ioc, " 0 * :Zane\r\n", 14);
 
 	br_sslio_flush(&ioc);
 
