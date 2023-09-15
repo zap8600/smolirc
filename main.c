@@ -238,23 +238,16 @@ static const br_x509_trust_anchor TAs[] = {
 int
 main(int argc, char *argv[])
 {
-	const char *host, *port, *path;
+	const char *host, *port, *username;
 	int fd;
 	br_ssl_client_context sc;
 	br_x509_minimal_context xc;
 	unsigned char iobuf[BR_SSL_BUFSIZE_BIDI];
 	br_sslio_context ioc;
 
-	if (argc < 3 || argc > 4) {
-		return EXIT_FAILURE;
-	}
 	host = argv[1];
 	port = argv[2];
-	if (argc == 4) {
-		path = argv[3];
-	} else {
-		path = "/";
-	}
+    username = argv[3];
 
 	signal(SIGPIPE, SIG_IGN);
 
@@ -279,9 +272,11 @@ main(int argc, char *argv[])
 	br_sslio_write_all(&ioc, "\r\n\r\n", 4);
     */
 
-    // br_sslio_write_all(&ioc, "", strlen(""));
-
-    printf("%d\n", strlen("NICK "))
+    br_sslio_write_all(&ioc, "NICK ", 5);
+    br_sslio_write_all(&ioc, username, strlen(username));
+    br_sslio_write_all(&ioc, "\r\nUser ", 7);
+	br_sslio_write_all(&ioc, username, strlen(username));
+	br_sslio_write_all(&ioc, " 0 * ", 5);
 
 	br_sslio_flush(&ioc);
 
